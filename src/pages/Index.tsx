@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -9,37 +10,76 @@ import AudioVisualizer from "@/components/AudioVisualizer";
 import { toast } from "sonner";
 
 const featuredPlaylists = [
-  { id: 1, name: "Today's Top Hits", coverUrl: "https://i.scdn.co/image/ab67706f000000023f3b1f9f2ddd8ebf283df697", description: "Ed Sheeran is on top of the Hottest 50!" },
-  { id: 2, name: "RapCaviar", coverUrl: "https://i.scdn.co/image/ab67706f00000002b1c181ae701ea36ca95eac2e", description: "New music from Drake, Travis Scott and more" },
-  { id: 3, name: "All Out 2010s", coverUrl: "https://i.scdn.co/image/ab67706f000000025ae7aa0454c9eadd8a3e7a5b", description: "The biggest songs of the 2010s." },
-  { id: 4, name: "Rock Classics", coverUrl: "https://i.scdn.co/image/ab67706f0000000278b4745cb9ce8ffe32daaf7e", description: "Rock legends & epic songs that continue to inspire generations." }
+  { 
+    id: 1, 
+    name: "Today's Top Hits", 
+    coverUrl: "https://i.scdn.co/image/ab67706f000000023c5a4aaf5cfd35b8e33ef0ce", 
+    description: "Ed Sheeran is on top of the Hottest 50!" 
+  },
+  { 
+    id: 2, 
+    name: "RapCaviar", 
+    coverUrl: "https://i.scdn.co/image/ab67706f00000002b171ffb38737ac1c1b618f56", 
+    description: "New music from Drake, Travis Scott and more" 
+  },
+  { 
+    id: 3, 
+    name: "All Out 2010s", 
+    coverUrl: "https://i.scdn.co/image/ab67706f000000025ae7aa0454c9eadd8a3e7a5b", 
+    description: "The biggest songs of the 2010s." 
+  },
+  { 
+    id: 4, 
+    name: "Rock Classics", 
+    coverUrl: "https://i.scdn.co/image/ab67706f0000000278b4745cb9ce8ffe32daaf7e", 
+    description: "Rock legends & epic songs that continue to inspire generations." 
+  }
 ];
 
+// Updated recentlyPlayed array with working image URLs
 const recentlyPlayed = [
   { 
     id: 1, 
     name: "Chill Mix", 
-    coverUrl: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5ebeed61fa4b2d3ac7d1fb6cf75/1/en/default",
+    coverUrl: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533", 
     type: "Mix" 
   },
   { 
     id: 2, 
     name: "Discover Weekly", 
-    coverUrl: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5ebeed61fa4b2d3ac7d1fb6cf75/2/en/default",
+    coverUrl: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v3/discover-weekly/aAbca4VNfzWuUCQ_FGiEFA==/bmVuZW5lbmVuZW5lbmVuZQ==", 
     type: "Playlist" 
   },
   { 
     id: 3, 
     name: "Your Top Songs 2023", 
-    coverUrl: "https://wrapped-images.spotifycdn.com/image/yts-2023/default/your-top-songs-2023_default_en.jpg",
+    coverUrl: "https://wrapped-images.spotifycdn.com/image/your-top-songs-2023/your-top-songs-2023_en.jpg", 
     type: "Playlist" 
   },
   { 
     id: 4, 
     name: "Liked Songs", 
-    coverUrl: "https://misc.scdn.co/liked-songs/liked-songs-640.png",
+    coverUrl: "https://misc.scdn.co/liked-songs/liked-songs-640.png", 
     type: "Playlist" 
   }
+];
+
+// Added featured albums array for genre section from screenshots
+const genrePlaylists = [
+  { id: 1, name: "Pop", coverUrl: "https://i.scdn.co/image/ab67706f00000002b0fe40a6e1692822f5a9d8f1", type: "Genre" },
+  { id: 2, name: "Rock", coverUrl: "https://i.scdn.co/image/ab67706f0000000278b0d54c4d2ba2c6bb557ee4", type: "Genre" },
+  { id: 3, name: "Hip-Hop", coverUrl: "https://i.scdn.co/image/ab67706f000000025f0ff9251e3cfe641160dc31", type: "Genre" },
+  { id: 4, name: "R&B", coverUrl: "https://i.scdn.co/image/ab67706f00000002b0fe40a6e1692822f5a9d8f1", type: "Genre" },
+  { id: 5, name: "Jazz", coverUrl: "https://i.scdn.co/image/ab67706f00000002d72ef75e14ca6f60ea2364c2", type: "Genre" }
+];
+
+// Added featured albums array based on screenshots
+const featuredAlbums = [
+  { id: 1, name: "After Hours", artist: "The Weeknd", coverUrl: "https://i.scdn.co/image/ab67616d0000b273ef017e899c0547989cbc6d14" },
+  { id: 2, name: "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?", artist: "Billie Eilish", coverUrl: "https://i.scdn.co/image/ab67616d0000b2734c5211dc56c1e898d5c246f3" },
+  { id: 3, name: "Planet Her", artist: "Doja Cat", coverUrl: "https://i.scdn.co/image/ab67616d0000b273529c6fa82d23f65076c1579b" },
+  { id: 4, name: "Lover", artist: "Taylor Swift", coverUrl: "https://i.scdn.co/image/ab67616d0000b2738e1a23e42f68260b7b274e09" },
+  { id: 5, name: "Scorpion", artist: "Drake", coverUrl: "https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5" }
 ];
 
 const Index = () => {
@@ -126,13 +166,33 @@ const Index = () => {
         </div>
       </div>
       
-      {/* Featured Section */}
-      <section className="py-16 px-4 md:px-8">
+      {/* Featured Albums Section */}
+      <section className="py-16 px-4 md:px-8 bg-gradient-to-b from-purple-900/20 to-spotify-black">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold mb-8">Featured Playlists</h2>
+          <h2 className="text-3xl font-bold mb-8">Featured Albums</h2>
           
-          <div className="relative">
-            <AlbumCarousel />
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            {featuredAlbums.map((album) => (
+              <motion.div
+                key={album.id}
+                className="group relative rounded-lg p-4 transition-all duration-300 hover:bg-spotify-light-gray/10"
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="overflow-hidden rounded-md">
+                  <img 
+                    src={album.coverUrl} 
+                    alt={album.name} 
+                    className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                <h3 className="font-semibold text-lg mt-4 truncate">{album.name}</h3>
+                <p className="text-spotify-gray text-sm">{album.artist}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -181,7 +241,37 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Featured Playlists Section */}
+      {/* Genre Section */}
+      <section className="py-16 px-4 md:px-8 relative bg-gradient-to-b from-spotify-black to-spotify-dark-gray/80">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold mb-8">Genres & Moods</h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {genrePlaylists.map((genre) => (
+              <motion.div
+                key={genre.id}
+                className="relative h-48 md:h-56 rounded-lg overflow-hidden"
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <img 
+                  src={genre.coverUrl} 
+                  alt={genre.name} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                  <h3 className="text-2xl font-bold p-4">{genre.name}</h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      {/* Popular Playlists Section */}
       <section className="py-16 px-4 md:px-8">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold mb-8">Popular Playlists</h2>
