@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from "react";
 
 interface CursorPoint {
   x: number;
   y: number;
-  id: number;
+  id: string; // Use string for unique IDs
+  opacity: number;
+  scale: number;
 }
 
 const CursorTrail = () => {
@@ -20,17 +21,29 @@ const CursorTrail = () => {
     window.addEventListener("mousemove", handleMouseMove);
     
     // Create cursor trail
-    let pointId = 0;
     const interval = setInterval(() => {
       setPoints((prevPoints) => {
-        // Add new point at current mouse position
-        const newPoints = [
-          { x: mousePos.x, y: mousePos.y, id: pointId++ },
-          ...prevPoints.slice(0, 15), // Keep only last 15 points
-        ];
-        return newPoints;
+        // Add new point at current mouse position with unique ID
+        const newPoint = {
+          x: mousePos.x,
+          y: mousePos.y,
+          id: `point-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          opacity: 0.7,
+          scale: 1
+        };
+        
+        // Update existing points with reduced opacity and scale
+        const updatedPoints = prevPoints.map(point => ({
+          ...point,
+          opacity: point.opacity * 0.92, // Fade out faster
+          scale: point.scale * 0.97 // Shrink faster
+        }));
+        
+        // Add new point and keep only points with opacity > 0.05
+        return [newPoint, ...updatedPoints.filter(p => p.opacity > 0.05)]
+          .slice(0, 20); // Keep maximum 20 points
       });
-    }, 50);
+    }, 40); // More frequent updates for smoother trail
     
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -40,15 +53,15 @@ const CursorTrail = () => {
   
   return (
     <>
-      {points.map((point, index) => (
+      {points.map((point) => (
         <div
-          key={point.id}
+          key={point.id} // Now using a guaranteed unique ID
           className="cursor-trail"
           style={{
             left: `${point.x}px`,
             top: `${point.y}px`,
-            opacity: 0.7 - (index * 0.05), // Fade out as the point gets older
-            transform: `scale(${1 - (index * 0.05)})`, // Shrink as the point gets older
+            opacity: point.opacity,
+            transform: `scale(${point.scale})`,
             transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         />

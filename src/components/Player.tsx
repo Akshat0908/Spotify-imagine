@@ -1,6 +1,6 @@
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, CSSProperties } from "react";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 
 const songs = [
@@ -10,7 +10,8 @@ const songs = [
     artist: "The Weeknd", 
     album: "After Hours", 
     duration: "3:22", 
-    cover: "https://i.scdn.co/image/ab67616d00001e02ef017e899c0547243d2b8336"
+    cover: "https://i.scdn.co/image/ab67616d00001e02ef017e899c0547243d2b8336",
+    audio: "/audio/sample1.mp3"
   },
   { 
     id: 2, 
@@ -18,7 +19,8 @@ const songs = [
     artist: "Dua Lipa", 
     album: "Future Nostalgia", 
     duration: "3:03", 
-    cover: "https://i.scdn.co/image/ab67616d00001e0282b243023e9695abf5f99b8c"
+    cover: "https://i.scdn.co/image/ab67616d00001e0282b243023e9695abf5f99b8c",
+    audio: "/audio/sample2.mp3"
   },
   { 
     id: 3, 
@@ -26,7 +28,8 @@ const songs = [
     artist: "Lizzo", 
     album: "Cuz I Love You", 
     duration: "2:39", 
-    cover: "https://i.scdn.co/image/ab67616d00001e0276cc6de06b2bcde25a93c376"
+    cover: "https://i.scdn.co/image/ab67616d00001e0276cc6de06b2bcde25a93c376",
+    audio: "/audio/sample3.mp3"
   }
 ];
 
@@ -38,8 +41,59 @@ const Player = () => {
   const [volume, setVolume] = useState(70);
   const [expanded, setExpanded] = useState(false);
   const [waveformValues, setWaveformValues] = useState<number[]>([]);
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   
   const currentSong = songs[currentSongIndex];
+  
+  useEffect(() => {
+    // Create audio element
+    const audio = new Audio();
+    setAudioElement(audio);
+    
+    // Set up audio element
+    audio.volume = volume / 100;
+    
+    return () => {
+      audio.pause();
+      audio.src = "";
+    };
+  }, []);
+  
+  useEffect(() => {
+    if (!audioElement) return;
+    
+    // Update audio source when song changes
+    audioElement.src = currentSong.audio;
+    
+    if (isPlaying) {
+      audioElement.play().catch(err => console.error("Error playing audio:", err));
+    }
+    
+    // Handle audio events
+    const handleTimeUpdate = () => setCurrentTime(audioElement.currentTime);
+    const handleLoadedMetadata = () => setDuration(audioElement.duration);
+    const handleEnded = () => nextSong();
+    
+    audioElement.addEventListener("timeupdate", handleTimeUpdate);
+    audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audioElement.addEventListener("ended", handleEnded);
+    
+    return () => {
+      audioElement.removeEventListener("timeupdate", handleTimeUpdate);
+      audioElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audioElement.removeEventListener("ended", handleEnded);
+    };
+  }, [currentSong, audioElement, currentSongIndex]);
+  
+  useEffect(() => {
+    if (!audioElement) return;
+    
+    if (isPlaying) {
+      audioElement.play().catch(err => console.error("Error playing audio:", err));
+    } else {
+      audioElement.pause();
+    }
+  }, [isPlaying, audioElement]);
   
   useEffect(() => {
     // Generate random waveform data
@@ -57,13 +111,6 @@ const Player = () => {
     let interval: number | null = null;
     if (isPlaying) {
       interval = window.setInterval(() => {
-        setCurrentTime((prev) => {
-          if (prev >= duration) {
-            nextSong();
-            return 0;
-          }
-          return prev + 1;
-        });
         generateWaveform();
       }, 1000);
     }
@@ -71,7 +118,13 @@ const Player = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, duration]);
+  }, [isPlaying]);
+  
+  useEffect(() => {
+    if (audioElement) {
+      audioElement.volume = volume / 100;
+    }
+  }, [volume, audioElement]);
   
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -87,10 +140,29 @@ const Player = () => {
     setCurrentTime(0);
   };
   
+  const handleSeek = (value: number[]) => {
+    if (audioElement) {
+      audioElement.currentTime = value[0];
+      setCurrentTime(value[0]);
+    }
+  };
+  
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  // Fixed the type error by using a proper way to define custom CSS properties
+  const getWaveStyle = (value: number, index: number): CSSProperties => {
+    return {
+      height: `${value * 100}%`,
+      animationDuration: `${0.8 + Math.random() * 0.4}s`,
+      animationDelay: `${Math.random() * 0.5}s`,
+      backgroundColor: isPlaying 
+        ? `rgba(29, 185, 84, ${0.7 + value * 0.3})` 
+        : `rgba(255, 255, 255, ${0.2 + value * 0.3})`,
+    };
   };
 
   return (
@@ -207,13 +279,13 @@ const Player = () => {
                 <Slider
                   value={[currentTime]}
                   min={0}
-                  max={duration}
+                  max={duration || 100}
                   step={1}
                   className="cursor-pointer"
-                  onValueChange={(value) => setCurrentTime(value[0])}
+                  onValueChange={handleSeek}
                 />
                 <span className="text-xs text-spotify-gray ml-2">
-                  {formatTime(duration)}
+                  {formatTime(duration || 0)}
                 </span>
               </div>
             </div>
@@ -285,12 +357,18 @@ const Player = () => {
                       <div className="flex items-end h-32 w-full space-x-1">
                         {waveformValues.map((value, index) => (
                           <motion.div 
-                            key={index}
+                            key={`wave-${index}-${value.toFixed(3)}`}
                             className="spotify-wave"
-                            style={{ 
-                              height: `${value * 100}%`,
-                              '--speed': `${0.8 + Math.random() * 0.4}s`,
-                              '--delay': `${Math.random() * 0.5}s`
+                            style={getWaveStyle(value, index)}
+                            animate={{
+                              height: isPlaying 
+                                ? [`${value * 70}%`, `${value * 100}%`, `${value * 70}%`]
+                                : `${value * 70}%`,
+                            }}
+                            transition={{
+                              duration: 0.8 + Math.random() * 0.4,
+                              repeat: Infinity,
+                              repeatType: "reverse",
                             }}
                           />
                         ))}
@@ -302,14 +380,14 @@ const Player = () => {
                       <Slider
                         value={[currentTime]}
                         min={0}
-                        max={duration}
+                        max={duration || 100}
                         step={1}
                         className="cursor-pointer"
-                        onValueChange={(value) => setCurrentTime(value[0])}
+                        onValueChange={handleSeek}
                       />
                       <div className="flex justify-between text-xs text-spotify-gray">
                         <span>{formatTime(currentTime)}</span>
-                        <span>{formatTime(duration)}</span>
+                        <span>{formatTime(duration || 0)}</span>
                       </div>
                     </div>
                     

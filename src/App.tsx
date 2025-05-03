@@ -12,6 +12,7 @@ import Library from "./pages/Library";
 import Player from "./components/Player";
 import NotFound from "./pages/NotFound";
 import CursorTrail from "./components/CursorTrail";
+import BackgroundMusic from "./components/BackgroundMusic";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <CursorTrail />
+        <BackgroundMusic />
         <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0 }}

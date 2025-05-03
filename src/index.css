@@ -1,146 +1,210 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 142 72% 42%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 142 72% 42%;
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+ 
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+ 
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+ 
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+ 
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+ 
+    --accent: 142.1 70.6% 45.3%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 142.4 71.8% 29.2%;
+ 
     --radius: 0.5rem;
   }
-
-  .dark {
-    --background: 0 0% 10%;
-    --foreground: 0 0% 100%;
-    --card: 240 10% 16%;
-    --card-foreground: 210 40% 98%;
-    --popover: 240 10% 16%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 142 72% 42%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 240 4% 25%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 240 4% 16%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 240 4% 16%;
-    --input: 240 4% 16%;
-    --ring: 142 72% 42%;
-  }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-
-  html {
-    @apply scroll-smooth;
-  }
-
   body {
-    @apply bg-spotify-black text-spotify-white font-sans;
-    font-family: 'Montserrat', sans-serif;
-  }
-
-  /* Custom cursor trails */
-  .cursor-trail {
-    height: 6px;
-    width: 6px;
-    border-radius: 50%;
-    background-color: #1DB954;
-    position: absolute;
-    pointer-events: none;
-    opacity: 0.7;
-    z-index: 10000;
-    transition: opacity 0.3s ease;
-  }
-  
-  /* Hide scrollbar but allow scrolling */
-  ::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 0.5rem;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #121212;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #535353;
-    border-radius: 1rem;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #1DB954;
-  }
-  
-  /* Canvas related classes */
-  .canvas-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  /* 3D effects */
-  .preserve-3d {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-  }
-  
-  /* Spotify Wave Animation */
-  .spotify-wave {
-    @apply inline-block w-1 bg-spotify-green mx-[2px] rounded-full;
-    animation: wave var(--speed) ease infinite;
-    animation-delay: var(--delay);
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 }
 
-@layer components {
-  .btn-spotify {
-    @apply bg-spotify-green hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-full transition-all duration-300;
-  }
-
-  .btn-spotify-outline {
-    @apply border-2 border-white hover:border-spotify-green text-white font-bold py-3 px-8 rounded-full transition-all duration-300;
-  }
-
-  .navbar-link {
-    @apply relative font-medium text-spotify-gray hover:text-spotify-white transition-colors before:absolute before:left-0 before:-bottom-1 before:h-[2px] before:w-0 before:bg-spotify-green before:transition-all hover:before:w-full;
-  }
-
-  .card-hover {
-    @apply transition-transform duration-300 hover:scale-105 hover:shadow-xl;
-  }
+/* Spotify brand colors */
+:root {
+  --spotify-black: #121212;
+  --spotify-dark-gray: #181818;
+  --spotify-light-gray: #282828;
+  --spotify-gray: #b3b3b3;
+  --spotify-white: #ffffff;
+  --spotify-green: #1db954;
+  --spotify-green-hover: #1ed760;
 }
 
+.bg-spotify-black {
+  background-color: var(--spotify-black);
+}
+
+.bg-spotify-dark-gray {
+  background-color: var(--spotify-dark-gray);
+}
+
+.bg-spotify-light-gray {
+  background-color: var(--spotify-light-gray);
+}
+
+.text-spotify-gray {
+  color: var(--spotify-gray);
+}
+
+.text-spotify-white {
+  color: var(--spotify-white);
+}
+
+.bg-spotify-green {
+  background-color: var(--spotify-green);
+}
+
+.btn-spotify {
+  @apply bg-spotify-green text-white hover:bg-spotify-green-hover;
+}
+
+.btn-spotify-outline {
+  @apply border border-white text-white hover:bg-white hover:text-spotify-black transition-colors;
+}
+
+/* Custom utilities */
+.card-hover {
+  @apply transition-all duration-300 hover:bg-spotify-light-gray;
+}
+
+/* 3D Transforms */
+.preserve-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Album rotation animation */
 .album-rotate {
-  animation: rotate-slow 20s linear infinite;
+  animation: album-rotation 20s linear infinite;
+}
+
+@keyframes album-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Audio wave animation */
+.spotify-wave {
+  @apply bg-spotify-green rounded-full w-1.5;
+  min-height: 3px;
+  animation: wave-animation var(--speed, 1s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: scaleY(0.5);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Cursor trail styling */
+.cursor-trail {
+  @apply fixed rounded-full bg-spotify-green opacity-70 z-50 pointer-events-none;
+  width: 10px;
+  height: 10px;
+  filter: blur(3px);
+  box-shadow: 0 0 15px var(--spotify-green), 0 0 30px var(--spotify-green);
+}
+
+/* Glassmorphism */
+.glassmorphism {
+  background: rgba(24, 24, 24, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Neon glow effects */
+.neon-glow {
+  box-shadow: 0 0 5px var(--spotify-green),
+              0 0 10px var(--spotify-green),
+              0 0 20px var(--spotify-green);
+}
+
+.neon-text {
+  text-shadow: 0 0 5px var(--spotify-green),
+               0 0 10px var(--spotify-green),
+               0 0 20px var(--spotify-green);
+}
+
+/* Enhanced scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--spotify-dark-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--spotify-light-gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--spotify-gray);
+}
+
+/* 3D parallax effect */
+.parallax-layer {
+  will-change: transform;
+}
+
+/* Holographic effects */
+.holographic {
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.1) 0%,
+    rgba(29, 185, 84, 0.2) 25%, 
+    rgba(138, 43, 226, 0.2) 50%, 
+    rgba(29, 185, 84, 0.2) 75%, 
+    rgba(255,255,255,0.1) 100%
+  );
+  background-size: 400% 400%;
+  animation: holographic-shift 10s ease infinite;
+}
+
+@keyframes holographic-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
