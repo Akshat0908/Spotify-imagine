@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -42,29 +43,33 @@ const CursorTrail = () => {
   
   return (
     <>
-      {points.map((point, index) => (
-        <motion.div
-          key={point.id}
-          className="fixed pointer-events-none rounded-full z-50"
-          style={{
-            left: point.x,
-            top: point.y,
-          }}
-          initial={{ scale: 0.8, opacity: 0.7 }}
-          animate={{ 
-            scale: 0,
-            opacity: 0,
-            backgroundColor: index === 0 ? "#1DB954" : "rgba(255, 255, 255, 0.5)"
-          }}
-          transition={{ 
-            duration: 0.8, 
-            ease: "easeOut" 
-          }}
-          // Size based on position in trail
-          width={(5 - index) * 6}
-          height={(5 - index) * 6}
-        />
-      ))}
+      {points.map((point, index) => {
+        // Calculate size based on position in trail
+        const size = (5 - index) * 6;
+        
+        return (
+          <motion.div
+            key={point.id}
+            className="fixed pointer-events-none rounded-full z-50"
+            style={{
+              left: point.x,
+              top: point.y,
+              width: `${size}px`,
+              height: `${size}px`
+            }}
+            initial={{ scale: 0.8, opacity: 0.7 }}
+            animate={{ 
+              scale: 0,
+              opacity: 0,
+              backgroundColor: index === 0 ? "#1DB954" : "rgba(255, 255, 255, 0.5)"
+            }}
+            transition={{ 
+              duration: 0.8, 
+              ease: "easeOut" 
+            }}
+          />
+        );
+      })}
     </>
   );
 };

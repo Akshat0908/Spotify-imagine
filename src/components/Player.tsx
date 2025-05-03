@@ -1,6 +1,12 @@
+
 import { useState, useEffect, CSSProperties } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
+
+// Generate waveform values for visualization
+const waveformValues = Array(40).fill(0).map(() => 
+  Math.max(0.3, Math.random() * 0.7)
+);
 
 // Updated song list with high-quality album artwork and better audio sources
 const songs = [
