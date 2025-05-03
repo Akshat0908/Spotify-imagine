@@ -1,8 +1,8 @@
-
 import { useState, useEffect, CSSProperties } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 
+// Updated song list with high-quality album artwork and better audio sources
 const songs = [
   { 
     id: 1, 
@@ -10,7 +10,7 @@ const songs = [
     artist: "The Weeknd", 
     album: "After Hours", 
     duration: "3:22", 
-    cover: "https://i.scdn.co/image/ab67616d00001e02ef017e899c0547243d2b8336",
+    cover: "https://i.scdn.co/image/ab67616d0000b273c8b444df094279e70d0ed856",
     audio: "/audio/sample1.mp3"
   },
   { 
@@ -19,7 +19,7 @@ const songs = [
     artist: "Dua Lipa", 
     album: "Future Nostalgia", 
     duration: "3:03", 
-    cover: "https://i.scdn.co/image/ab67616d00001e0282b243023e9695abf5f99b8c",
+    cover: "https://i.scdn.co/image/ab67616d0000b273bd26ede1ae69327010d49946",
     audio: "/audio/sample2.mp3"
   },
   { 
@@ -28,7 +28,7 @@ const songs = [
     artist: "Lizzo", 
     album: "Cuz I Love You", 
     duration: "2:39", 
-    cover: "https://i.scdn.co/image/ab67616d00001e0276cc6de06b2bcde25a93c376",
+    cover: "https://i.scdn.co/image/ab67616d0000b273e76c82c8ffdafaa96d9ddbc0",
     audio: "/audio/sample3.mp3"
   }
 ];
@@ -40,7 +40,6 @@ const Player = () => {
   const [duration, setDuration] = useState(100);
   const [volume, setVolume] = useState(70);
   const [expanded, setExpanded] = useState(false);
-  const [waveformValues, setWaveformValues] = useState<number[]>([]);
   const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
   
   const currentSong = songs[currentSongIndex];
@@ -94,31 +93,6 @@ const Player = () => {
       audioElement.pause();
     }
   }, [isPlaying, audioElement]);
-  
-  useEffect(() => {
-    // Generate random waveform data
-    const generateWaveform = () => {
-      const values = [];
-      for (let i = 0; i < 40; i++) {
-        values.push(Math.random() * 0.8 + 0.2); // Values between 0.2 and 1
-      }
-      setWaveformValues(values);
-    };
-    
-    generateWaveform();
-    
-    // Update waveform periodically when playing
-    let interval: number | null = null;
-    if (isPlaying) {
-      interval = window.setInterval(() => {
-        generateWaveform();
-      }, 1000);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isPlaying]);
   
   useEffect(() => {
     if (audioElement) {

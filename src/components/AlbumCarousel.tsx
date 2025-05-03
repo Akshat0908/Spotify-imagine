@@ -3,33 +3,34 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useAnimation, useMotionValue } from "framer-motion";
 import { toast } from "sonner";
 
+// Updated albums with higher quality images
 const albums = [
   { 
     id: 1, 
     title: "Future Nostalgia", 
     artist: "Dua Lipa", 
-    cover: "https://i.scdn.co/image/ab67616d0000b27382b243023e9695abf5f99b8c",
+    cover: "https://i.scdn.co/image/ab67616d0000b273bd26ede1ae69327010d49946",
     active: true 
   },
   { 
     id: 2, 
     title: "After Hours", 
     artist: "The Weeknd", 
-    cover: "https://i.scdn.co/image/ab67616d0000b273ef017e899c0547243d2b8336",
+    cover: "https://i.scdn.co/image/ab67616d0000b273c8b444df094279e70d0ed856",
     active: true 
   },
   { 
     id: 3, 
     title: "WHEN WE ALL FALL ASLEEP", 
     artist: "Billie Eilish", 
-    cover: "https://i.scdn.co/image/ab67616d0000b273641f6e10f583148bf317856d",
+    cover: "https://i.scdn.co/image/ab67616d0000b2735ec41436d2815c835b9092e2",
     active: true 
   },
   { 
     id: 4, 
     title: "Planet Her", 
     artist: "Doja Cat", 
-    cover: "https://i.scdn.co/image/ab67616d0000b2734df3245f26298a1579ecc321",
+    cover: "https://i.scdn.co/image/ab67616d0000b273a4f523a21cacea1313f19c40",
     active: true 
   },
   { 
@@ -50,7 +51,21 @@ const albums = [
     id: 7, 
     title: "Cuz I Love You", 
     artist: "Lizzo", 
-    cover: "https://i.scdn.co/image/ab67616d0000b27376cc6de06b2bcde25a93c376",
+    cover: "https://i.scdn.co/image/ab67616d0000b273e76c82c8ffdafaa96d9ddbc0",
+    active: true 
+  },
+  { 
+    id: 8, 
+    title: "Chromatica", 
+    artist: "Lady Gaga", 
+    cover: "https://i.scdn.co/image/ab67616d0000b27349d694203245f241a1bcaa72",
+    active: true 
+  },
+  { 
+    id: 9, 
+    title: "Folklore", 
+    artist: "Taylor Swift", 
+    cover: "https://i.scdn.co/image/ab67616d0000b273c288028c2592f400dd0b9233",
     active: true 
   },
 ];
@@ -106,8 +121,9 @@ const AlbumCarousel = () => {
   };
   
   const handleAlbumClick = (albumId: number) => {
-    toast.success(`Playing "${albums.find(a => a.id === albumId)?.title}"`, {
-      description: "Loading your music experience...",
+    const selectedAlbum = albums.find(a => a.id === albumId);
+    toast.success(`Playing "${selectedAlbum?.title}"`, {
+      description: `Now playing ${selectedAlbum?.artist}`,
       duration: 3000,
     });
   };
@@ -188,7 +204,10 @@ const AlbumCarousel = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <motion.button 
-                    className="absolute right-6 bottom-6 bg-spotify-green text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg neon-glow"
+                    className="absolute right-6 bottom-6 bg-spotify-green text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg"
+                    style={{
+                      boxShadow: isHovered ? "0 0 15px 2px rgba(29, 185, 84, 0.6)" : "none"
+                    }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -218,24 +237,6 @@ const AlbumCarousel = () => {
               >
                 <h3 className="font-bold text-lg line-clamp-1">{album.title}</h3>
                 <p className="text-spotify-gray text-sm">{album.artist}</p>
-                
-                {/* CD reflection effect (visible on hover) */}
-                {isHovered && (
-                  <motion.div 
-                    className="absolute top-[50%] left-[50%] w-24 h-24 rounded-full opacity-40 holographic"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ 
-                      opacity: 0.4, 
-                      scale: 1,
-                      rotateZ: [0, 360]
-                    }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    style={{
-                      transform: "translate(-50%, -50%) translateZ(30px)",
-                      mixBlendMode: "overlay"
-                    }}
-                  />
-                )}
               </motion.div>
             </motion.div>
           );

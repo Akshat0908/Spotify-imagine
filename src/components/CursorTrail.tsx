@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface CursorPoint {
   x: number;
   y: number;
-  id: string; // Use string for unique IDs
-  opacity: number;
-  scale: number;
+  id: string;
 }
 
 const CursorTrail = () => {
@@ -28,22 +27,12 @@ const CursorTrail = () => {
           x: mousePos.x,
           y: mousePos.y,
           id: `point-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          opacity: 0.7,
-          scale: 1
         };
         
-        // Update existing points with reduced opacity and scale
-        const updatedPoints = prevPoints.map(point => ({
-          ...point,
-          opacity: point.opacity * 0.92, // Fade out faster
-          scale: point.scale * 0.97 // Shrink faster
-        }));
-        
-        // Add new point and keep only points with opacity > 0.05
-        return [newPoint, ...updatedPoints.filter(p => p.opacity > 0.05)]
-          .slice(0, 20); // Keep maximum 20 points
+        // Keep only the 5 most recent points for a more subtle trail
+        return [newPoint, ...prevPoints.slice(0, 4)];
       });
-    }, 40); // More frequent updates for smoother trail
+    }, 80); // Less frequent updates for more subtle effect
     
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -53,17 +42,27 @@ const CursorTrail = () => {
   
   return (
     <>
-      {points.map((point) => (
-        <div
-          key={point.id} // Now using a guaranteed unique ID
-          className="cursor-trail"
+      {points.map((point, index) => (
+        <motion.div
+          key={point.id}
+          className="fixed pointer-events-none rounded-full z-50"
           style={{
-            left: `${point.x}px`,
-            top: `${point.y}px`,
-            opacity: point.opacity,
-            transform: `scale(${point.scale})`,
-            transition: "opacity 0.3s ease, transform 0.3s ease",
+            left: point.x,
+            top: point.y,
           }}
+          initial={{ scale: 0.8, opacity: 0.7 }}
+          animate={{ 
+            scale: 0,
+            opacity: 0,
+            backgroundColor: index === 0 ? "#1DB954" : "rgba(255, 255, 255, 0.5)"
+          }}
+          transition={{ 
+            duration: 0.8, 
+            ease: "easeOut" 
+          }}
+          // Size based on position in trail
+          width={(5 - index) * 6}
+          height={(5 - index) * 6}
         />
       ))}
     </>
