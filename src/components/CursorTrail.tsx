@@ -15,6 +15,12 @@ const CursorTrail = () => {
   const location = useLocation();
   
   useEffect(() => {
+    // Skip entire effect on browse page
+    if (location.pathname === "/browse") {
+      setPoints([]);
+      return;
+    }
+    
     // Track mouse position
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
@@ -22,14 +28,8 @@ const CursorTrail = () => {
     
     window.addEventListener("mousemove", handleMouseMove);
     
-    // Create cursor trail - disable on browse page
+    // Create cursor trail
     const interval = setInterval(() => {
-      // Skip trail creation on /browse route
-      if (location.pathname === "/browse") {
-        setPoints([]);
-        return;
-      }
-      
       setPoints((prevPoints) => {
         // Add new point at current mouse position with unique ID
         const newPoint = {
@@ -48,6 +48,11 @@ const CursorTrail = () => {
       clearInterval(interval);
     };
   }, [mousePos, location.pathname]);
+  
+  // Don't render anything on browse page
+  if (location.pathname === "/browse") {
+    return null;
+  }
   
   return (
     <>
