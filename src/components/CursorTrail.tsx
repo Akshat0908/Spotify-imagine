@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 interface CursorPoint {
   x: number;
@@ -11,6 +12,7 @@ interface CursorPoint {
 const CursorTrail = () => {
   const [points, setPoints] = useState<CursorPoint[]>([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const location = useLocation();
   
   useEffect(() => {
     // Track mouse position
@@ -20,8 +22,14 @@ const CursorTrail = () => {
     
     window.addEventListener("mousemove", handleMouseMove);
     
-    // Create cursor trail
+    // Create cursor trail - disable on browse page
     const interval = setInterval(() => {
+      // Skip trail creation on /browse route
+      if (location.pathname === "/browse") {
+        setPoints([]);
+        return;
+      }
+      
       setPoints((prevPoints) => {
         // Add new point at current mouse position with unique ID
         const newPoint = {
@@ -39,7 +47,7 @@ const CursorTrail = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       clearInterval(interval);
     };
-  }, [mousePos]);
+  }, [mousePos, location.pathname]);
   
   return (
     <>

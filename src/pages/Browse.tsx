@@ -17,18 +17,18 @@ const categories = [
 ];
 
 const genres = [
-  { id: 1, name: "Pop", color: "#ff4757", imageUrl: "https://i.scdn.co/image/ab67706f000000029249b35f23fb596b6f006a15" },
-  { id: 2, name: "Rock", color: "#2ed573", imageUrl: "https://i.scdn.co/image/ab67706f00000002fe6d8d1019d5b302213e3730" },
-  { id: 3, name: "Hip-Hop", color: "#1e90ff", imageUrl: "https://i.scdn.co/image/ab67706f000000029bb6af539d072de34548d15c" },
-  { id: 4, name: "R&B", color: "#ff6b81", imageUrl: "https://i.scdn.co/image/ab67706f00000002aa93fe4e7c192ff6f9414f8d" },
-  { id: 5, name: "Latin", color: "#ffa502", imageUrl: "https://i.scdn.co/image/ab67706f00000002de8e00fc248350e0fd3a7358" },
-  { id: 6, name: "Electronic", color: "#5352ed", imageUrl: "https://i.scdn.co/image/ab67706f000000026abd53e25938d7adc25eaace" },
-  { id: 7, name: "Country", color: "#ff6348", imageUrl: "https://i.scdn.co/image/ab67706f000000023fc5e37ef52aac5e2e0b52bc" },
-  { id: 8, name: "Jazz", color: "#747d8c", imageUrl: "https://i.scdn.co/image/ab67706f00000002d72ef75e14ca6f60ea2364c2" },
-  { id: 9, name: "Classical", color: "#2f3542", imageUrl: "https://i.scdn.co/image/ab67706f000000023e0130fcd5d106f1402b4707" },
-  { id: 10, name: "Metal", color: "#3742fa", imageUrl: "https://i.scdn.co/image/ab67706f0000000285704160fee0f78acc6fa5be" },
-  { id: 11, name: "Folk & Acoustic", color: "#ff9ff3", imageUrl: "https://i.scdn.co/image/ab67706f0000000237df164786f688dd0ccd8744" },
-  { id: 12, name: "Indie", color: "#70a1ff", imageUrl: "https://i.scdn.co/image/ab67706f000000025f7327d3fdc71af27917adba" }
+  { id: 1, name: "Pop", color: "#ff4757", imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=500" },
+  { id: 2, name: "Rock", color: "#2ed573", imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=500" },
+  { id: 3, name: "Hip-Hop", color: "#1e90ff", imageUrl: "https://images.unsplash.com/photo-1493962853295-0fd70327578a?auto=format&fit=crop&q=80&w=500" },
+  { id: 4, name: "R&B", color: "#ff6b81", imageUrl: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&q=80&w=500" },
+  { id: 5, name: "Latin", color: "#ffa502", imageUrl: "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&q=80&w=500" },
+  { id: 6, name: "Electronic", color: "#5352ed", imageUrl: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?auto=format&fit=crop&q=80&w=500" },
+  { id: 7, name: "Country", color: "#ff6348", imageUrl: "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&q=80&w=500" },
+  { id: 8, name: "Jazz", color: "#747d8c", imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=500" },
+  { id: 9, name: "Classical", color: "#2f3542", imageUrl: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&q=80&w=500" },
+  { id: 10, name: "Metal", color: "#3742fa", imageUrl: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&q=80&w=500" },
+  { id: 11, name: "Folk & Acoustic", color: "#ff9ff3", imageUrl: "https://images.unsplash.com/photo-1519005218665-fa802a36af6f?auto=format&fit=crop&q=80&w=500" },
+  { id: 12, name: "Indie", color: "#70a1ff", imageUrl: "https://images.unsplash.com/photo-1496307653780-42ee777d4833?auto=format&fit=crop&q=80&w=500" }
 ];
 
 const Browse = () => {
