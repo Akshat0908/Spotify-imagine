@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -13,25 +12,25 @@ const featuredPlaylists = [
   { 
     id: 1, 
     name: "Today's Top Hits", 
-    coverUrl: "https://i.scdn.co/image/ab67706f000000023c5a4aaf5cfd35b8e33ef0ce", 
+    coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     description: "Ed Sheeran is on top of the Hottest 50!" 
   },
   { 
     id: 2, 
     name: "RapCaviar", 
-    coverUrl: "https://i.scdn.co/image/ab67706f00000002b171ffb38737ac1c1b618f56", 
+    coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     description: "New music from Drake, Travis Scott and more" 
   },
   { 
     id: 3, 
     name: "All Out 2010s", 
-    coverUrl: "https://i.scdn.co/image/ab67706f000000025ae7aa0454c9eadd8a3e7a5b", 
+    coverUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     description: "The biggest songs of the 2010s." 
   },
   { 
     id: 4, 
     name: "Rock Classics", 
-    coverUrl: "https://i.scdn.co/image/ab67706f0000000278b4745cb9ce8ffe32daaf7e", 
+    coverUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     description: "Rock legends & epic songs that continue to inspire generations." 
   }
 ];
@@ -41,45 +40,45 @@ const recentlyPlayed = [
   { 
     id: 1, 
     name: "Chill Mix", 
-    coverUrl: "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533", 
+    coverUrl: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     type: "Mix" 
   },
   { 
     id: 2, 
     name: "Discover Weekly", 
-    coverUrl: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v3/discover-weekly/aAbca4VNfzWuUCQ_FGiEFA==/bmVuZW5lbmVuZW5lbmVuZQ==", 
+    coverUrl: "https://images.unsplash.com/photo-1446057032654-9d8885db76c6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     type: "Playlist" 
   },
   { 
     id: 3, 
     name: "Your Top Songs 2023", 
-    coverUrl: "https://wrapped-images.spotifycdn.com/image/your-top-songs-2023/your-top-songs-2023_en.jpg", 
+    coverUrl: "https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     type: "Playlist" 
   },
   { 
     id: 4, 
     name: "Liked Songs", 
-    coverUrl: "https://misc.scdn.co/liked-songs/liked-songs-640.png", 
+    coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
     type: "Playlist" 
   }
 ];
 
-// Added featured albums array for genre section from screenshots
+// Added featured albums array for genre section with updated image URLs
 const genrePlaylists = [
-  { id: 1, name: "Pop", coverUrl: "https://i.scdn.co/image/ab67706f00000002b0fe40a6e1692822f5a9d8f1", type: "Genre" },
-  { id: 2, name: "Rock", coverUrl: "https://i.scdn.co/image/ab67706f0000000278b0d54c4d2ba2c6bb557ee4", type: "Genre" },
-  { id: 3, name: "Hip-Hop", coverUrl: "https://i.scdn.co/image/ab67706f000000025f0ff9251e3cfe641160dc31", type: "Genre" },
-  { id: 4, name: "R&B", coverUrl: "https://i.scdn.co/image/ab67706f00000002b0fe40a6e1692822f5a9d8f1", type: "Genre" },
-  { id: 5, name: "Jazz", coverUrl: "https://i.scdn.co/image/ab67706f00000002d72ef75e14ca6f60ea2364c2", type: "Genre" }
+  { id: 1, name: "Pop", coverUrl: "https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", type: "Genre" },
+  { id: 2, name: "Rock", coverUrl: "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", type: "Genre" },
+  { id: 3, name: "Hip-Hop", coverUrl: "https://images.unsplash.com/photo-1557787163-1635e2efb160?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", type: "Genre" },
+  { id: 4, name: "R&B", coverUrl: "https://images.unsplash.com/photo-1485579149621-3123dd979885?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", type: "Genre" },
+  { id: 5, name: "Jazz", coverUrl: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", type: "Genre" }
 ];
 
-// Added featured albums array based on screenshots
+// Added featured albums array with updated image URLs
 const featuredAlbums = [
-  { id: 1, name: "After Hours", artist: "The Weeknd", coverUrl: "https://i.scdn.co/image/ab67616d0000b273ef017e899c0547989cbc6d14" },
-  { id: 2, name: "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?", artist: "Billie Eilish", coverUrl: "https://i.scdn.co/image/ab67616d0000b2734c5211dc56c1e898d5c246f3" },
-  { id: 3, name: "Planet Her", artist: "Doja Cat", coverUrl: "https://i.scdn.co/image/ab67616d0000b273529c6fa82d23f65076c1579b" },
-  { id: 4, name: "Lover", artist: "Taylor Swift", coverUrl: "https://i.scdn.co/image/ab67616d0000b2738e1a23e42f68260b7b274e09" },
-  { id: 5, name: "Scorpion", artist: "Drake", coverUrl: "https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5" }
+  { id: 1, name: "After Hours", artist: "The Weeknd", coverUrl: "https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?q=80&w=1776&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { id: 2, name: "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?", artist: "Billie Eilish", coverUrl: "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { id: 3, name: "Planet Her", artist: "Doja Cat", coverUrl: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { id: 4, name: "Lover", artist: "Taylor Swift", coverUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+  { id: 5, name: "Scorpion", artist: "Drake", coverUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }
 ];
 
 const Index = () => {

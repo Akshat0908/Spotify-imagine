@@ -16,7 +16,7 @@ const songs = [
     artist: "The Weeknd", 
     album: "After Hours", 
     duration: "3:22", 
-    cover: "https://i.scdn.co/image/ab67616d0000b273c8b444df094279e70d0ed856",
+    cover: "https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?q=80&w=1776&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     audio: "/audio/sample1.mp3"
   },
   { 
@@ -25,7 +25,7 @@ const songs = [
     artist: "Dua Lipa", 
     album: "Future Nostalgia", 
     duration: "3:03", 
-    cover: "https://i.scdn.co/image/ab67616d0000b273bd26ede1ae69327010d49946",
+    cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     audio: "/audio/sample2.mp3"
   },
   { 
@@ -34,7 +34,7 @@ const songs = [
     artist: "Lizzo", 
     album: "Cuz I Love You", 
     duration: "2:39", 
-    cover: "https://i.scdn.co/image/ab67616d0000b273e76c82c8ffdafaa96d9ddbc0",
+    cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     audio: "/audio/sample3.mp3"
   }
 ];
