@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import HeroScene from "@/components/HeroScene";
 import AlbumCarousel from "@/components/AlbumCarousel";
 import AudioVisualizer from "@/components/AudioVisualizer";
+import MoodSection from "@/components/MoodSection";
+import ImmersiveWorld from "@/components/ImmersiveWorld";
 import { toast } from "sonner";
 
 const featuredPlaylists = [
@@ -84,6 +86,7 @@ const featuredAlbums = [
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [showImmersiveWorld, setShowImmersiveWorld] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -110,6 +113,7 @@ const Index = () => {
 
   const toggleAudio = () => {
     setIsAudioPlaying(!isAudioPlaying);
+    setShowImmersiveWorld(true); // Show immersive world on play
   };
 
   const parallaxValue = scrollY * 0.5;
@@ -117,7 +121,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-spotify-dark-gray to-spotify-black text-spotify-white">
       <Navbar />
-      
+      {showImmersiveWorld && (
+        <ImmersiveWorld mood="Demo" onClose={() => setShowImmersiveWorld(false)} />
+      )}
       {/* Hero Section with 3D Scene */}
       <div className="relative h-[calc(100vh-80px)] overflow-hidden">
         <HeroScene />
@@ -130,7 +136,7 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              Music Comes To Life
+              Press Play, Feel Magic
             </motion.h1>
             
             <motion.p 
@@ -164,6 +170,9 @@ const Index = () => {
           <AudioVisualizer isPlaying={isAudioPlaying} />
         </div>
       </div>
+      
+      {/* Mood Section */}
+      <MoodSection />
       
       {/* Featured Albums Section */}
       <section className="py-16 px-4 md:px-8 bg-gradient-to-b from-purple-900/20 to-spotify-black">
