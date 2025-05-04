@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
 
-## Project info
+# Spotify Imagine 🎵
 
-**URL**: https://lovable.dev/projects/d29e1220-6d0d-4b8a-a412-ebd2f00584b5
+**Spotify Imagine** is a modern, immersive web app that reimagines the music listening experience. Built with React, Vite, Three.js, and Tailwind CSS, it brings music to life with 3D visuals, mood-based playlists, and interactive features inspired by Spotify.
 
-## How can I edit this code?
 
-There are several ways of editing your application.
+<img width="1440" alt="Screenshot 2025-05-04 at 11 56 24 PM" src="https://github.com/user-attachments/assets/408a1432-11d0-493e-a751-f6a4f59f7208" />
 
-**Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d29e1220-6d0d-4b8a-a412-ebd2f00584b5) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🚀 Features
 
-**Use your preferred IDE**
+- **Immersive 3D Music World:** Enter a full-screen, audio-reactive 3D visualizer that responds to your music and mood.
+- **Mood-Based Playlists:** Select your mood and get personalized playlist recommendations with beautiful, music-related imagery.
+- **Modern UI:** Clean, responsive design inspired by Spotify, with smooth animations and dark mode.
+- **Real Music Data:** (Optional) Integrate with Spotify, Last.fm, or Genius APIs for real-time music, lyrics, and artist info.
+- **Interactive Experience:** Play, pause, and explore music in a visually stunning environment.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+<img width="1440" alt="Screenshot 2025-05-04 at 11 56 32 PM" src="https://github.com/user-attachments/assets/529b540c-00a9-4f19-a16c-dfada239d027" />
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🖥️ Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **React** + **Vite** for fast, modern frontend development
+- **Tailwind CSS** for styling
+- **@react-three/fiber** (Three.js) for 3D scenes and visualizations
+- **Framer Motion** for smooth animations
+- **TypeScript** for type safety
 
-# Step 3: Install the necessary dependencies.
-npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+<img width="1440" alt="Screenshot 2025-05-04 at 11 56 42 PM" src="https://github.com/user-attachments/assets/67087400-7e27-4d88-8f9b-d19bdbba50d4" />
+
+
+## 📂 Project Structure
+
+```
+src/
+  components/      # Reusable UI components
+  pages/           # Main pages (Home, etc.)
+  hooks/           # Custom React hooks
+  services/        # API service logic
+  config/          # API config and constants
+  assets/          # Images and static files
 ```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+<img width="1426" alt="Screenshot 2025-05-04 at 11 56 54 PM" src="https://github.com/user-attachments/assets/267c5a43-ba72-45e2-8284-7eb24fe1b504" />
 
-**Use GitHub Codespaces**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## ✨ Acknowledgements
 
-## What technologies are used for this project?
+- [Spotify](https://spotify.com) for inspiration
+- [Pixabay](https://pixabay.com/music/) and [Pexels](https://pexels.com) for royalty-free music and images
+- [Unsplash](https://unsplash.com) for beautiful background images
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/d29e1220-6d0d-4b8a-a412-ebd2f00584b5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
