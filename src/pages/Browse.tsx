@@ -1,11 +1,14 @@
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import GenreVisualizer from "@/components/GenreVisualizer";
 import { Music, Headphones, Mic, Volume2, Disc, Play } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AudioWaveBackground from "@/components/AudioWaveBackground";
+import TrendingTracks from "@/components/TrendingTracks";
+import MoodBasedRecommendations from "@/components/MoodBasedRecommendations";
+import { getTopTags, Tag } from "@/utils/musicApi";
 
 const categories = [
   { id: 1, name: "Charts", color: "#3498db", icon: Music },
@@ -18,22 +21,23 @@ const categories = [
   { id: 8, name: "COVID-19 Guide", color: "#7f8c8d", icon: Mic },
 ];
 
+// Using music-related images from professional sources
 const genres = [
-  { id: 1, name: "Pop", color: "#ff4757", imageUrl: "https://images.unsplash.com/photo-1619983081563-430f63602796?auto=format&fit=crop&q=80&w=500" },
-  { id: 2, name: "Rock", color: "#2ed573", imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=500" },
+  { id: 1, name: "Pop", color: "#ff4757", imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=500" },
+  { id: 2, name: "Rock", color: "#2ed573", imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=500" },
   { id: 3, name: "Hip-Hop", color: "#1e90ff", imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=500" },
-  { id: 4, name: "R&B", color: "#ff6b81", imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=500" },
-  { id: 5, name: "Latin", color: "#ffa502", imageUrl: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=500" },
-  { id: 6, name: "Electronic", color: "#5352ed", imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=500" },
-  { id: 7, name: "Country", color: "#ff6348", imageUrl: "https://images.unsplash.com/photo-1543857778-c4a1a9e0615f?auto=format&fit=crop&q=80&w=500" },
-  { id: 8, name: "Jazz", color: "#747d8c", imageUrl: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&q=80&w=500" },
+  { id: 4, name: "R&B", color: "#ff6b81", imageUrl: "https://images.unsplash.com/photo-1598387992619-f2e0a483fce1?auto=format&fit=crop&q=80&w=500" },
+  { id: 5, name: "Latin", color: "#ffa502", imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=500" },
+  { id: 6, name: "Electronic", color: "#5352ed", imageUrl: "https://images.unsplash.com/photo-1516223725307-6f76b9ec8742?auto=format&fit=crop&q=80&w=500" },
+  { id: 7, name: "Country", color: "#ff6348", imageUrl: "https://images.unsplash.com/photo-1605457212633-d1f05305e2fe?auto=format&fit=crop&q=80&w=500" },
+  { id: 8, name: "Jazz", color: "#747d8c", imageUrl: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?auto=format&fit=crop&q=80&w=500" },
   { id: 9, name: "Classical", color: "#2f3542", imageUrl: "https://images.unsplash.com/photo-1507838153414-b4b713384a76?auto=format&fit=crop&q=80&w=500" },
-  { id: 10, name: "Metal", color: "#3742fa", imageUrl: "https://images.unsplash.com/photo-1499364615650-ec38552f4f34?auto=format&fit=crop&q=80&w=500" },
-  { id: 11, name: "Folk & Acoustic", color: "#ff9ff3", imageUrl: "https://images.unsplash.com/photo-1485278537138-4e8911a13c02?auto=format&fit=crop&q=80&w=500" },
-  { id: 12, name: "Indie", color: "#70a1ff", imageUrl: "https://images.unsplash.com/photo-1524650359799-842906ca1c06?auto=format&fit=crop&q=80&w=500" }
+  { id: 10, name: "Metal", color: "#3742fa", imageUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=500" },
+  { id: 11, name: "Folk & Acoustic", color: "#ff9ff3", imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=500" },
+  { id: 12, name: "Indie", color: "#70a1ff", imageUrl: "https://images.unsplash.com/photo-1508608521275-e8dda563714c?auto=format&fit=crop&q=80&w=500" }
 ];
 
-// New mood playlists - BONUS FEATURE
+// Mood playlists
 const moodPlaylists = [
   { 
     id: "chill", 
@@ -63,27 +67,30 @@ const moodPlaylists = [
 
 const Browse = () => {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [filterQuery, setFilterQuery] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [apiTags, setApiTags] = useState<Tag[]>([]);
+  const [isTagsLoading, setIsTagsLoading] = useState(true);
   const { toast } = useToast();
   
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const fetchTags = async () => {
+      try {
+        const tags = await getTopTags(10);
+        setApiTags(tags);
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+      } finally {
+        setIsTagsLoading(false);
+      }
     };
-
-    window.addEventListener("mousemove", handleMouseMove);
     
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    fetchTags();
   }, []);
 
   const handleGenreSelect = (id: number) => {
     setSelectedGenre(id === selectedGenre ? null : id);
     
-    // BONUS FEATURE: Toast notification when genre is selected
     if (id !== selectedGenre) {
       const genre = genres.find(g => g.id === id);
       if (genre) {
@@ -104,12 +111,12 @@ const Browse = () => {
     });
   };
   
-  // BONUS FEATURE: Filter genres
+  // Filter genres
   const filteredGenres = genres.filter(genre => 
     genre.name.toLowerCase().includes(filterQuery.toLowerCase())
   );
   
-  // BONUS FEATURE: Toggle dark mode
+  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     toast({
@@ -122,12 +129,9 @@ const Browse = () => {
     <div className={`min-h-screen ${darkMode ? 'bg-gradient-to-b from-gray-900 to-black' : 'bg-gradient-to-b from-spotify-dark-gray to-spotify-black'} text-spotify-white`}>
       <Navbar />
       
-      {/* 3D Genre Visualizer */}
+      {/* Replace 3D Genre Visualizer with Audio Wave Background */}
       <div className="fixed top-0 left-0 w-full h-full z-0 pointer-events-none">
-        <GenreVisualizer 
-          selectedGenre={selectedGenre !== null ? genres.find(g => g.id === selectedGenre)?.name || "" : ""} 
-          mousePosition={mousePosition}
-        />
+        <AudioWaveBackground />
       </div>
       
       <main className="container mx-auto px-4 py-8 pt-24 relative z-10">
@@ -141,7 +145,7 @@ const Browse = () => {
             Browse All
           </motion.h1>
           
-          {/* BONUS FEATURE: Dark mode toggle */}
+          {/* Dark mode toggle */}
           <motion.button
             className={`p-2 rounded-full ${darkMode ? 'bg-white text-black' : 'bg-gray-800 text-white'}`}
             onClick={toggleDarkMode}
@@ -152,7 +156,7 @@ const Browse = () => {
           </motion.button>
         </div>
         
-        {/* BONUS FEATURE: Search/Filter */}
+        {/* Search/Filter */}
         <motion.div 
           className="mb-6"
           initial={{ opacity: 0, y: 20 }}
@@ -170,6 +174,77 @@ const Browse = () => {
             <span className="absolute left-3 top-3 text-white/60">🔍</span>
           </div>
         </motion.div>
+        
+        {/* Last.fm API Trending Tracks - NEW FEATURE */}
+        <section className="mb-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="lg:col-span-2"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <TrendingTracks />
+          </motion.div>
+          
+          {/* Last.fm API Tags/Genres - NEW FEATURE */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="bg-spotify-black/30 backdrop-blur-md rounded-xl p-4"
+          >
+            <h3 className="text-xl font-bold mb-4">Popular Tags</h3>
+            {isTagsLoading ? (
+              <div className="flex justify-center items-center h-40">
+                <div className="flex space-x-1">
+                  {[1, 2, 3].map((i) => (
+                    <motion.div
+                      key={i}
+                      className="w-2 h-8 bg-spotify-green rounded-full"
+                      animate={{
+                        height: [8, 32, 8],
+                      }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        delay: i * 0.2,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {apiTags.map((tag, index) => (
+                  <motion.button
+                    key={tag.name}
+                    className="bg-white/10 hover:bg-spotify-green/20 px-3 py-1 rounded-full text-sm transition-colors"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => {
+                      toast({
+                        title: tag.name,
+                        description: `Exploring ${tag.name} music (${tag.count} listeners)`,
+                        duration: 3000,
+                      });
+                    }}
+                  >
+                    {tag.name}
+                  </motion.button>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </section>
+        
+        {/* NEW FEATURE: Mood-based recommendations */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Music for Your Mood</h2>
+          <MoodBasedRecommendations />
+        </section>
         
         {/* Categories */}
         <section className="mb-16">
@@ -235,20 +310,23 @@ const Browse = () => {
             {filteredGenres.map((genre, index) => (
               <motion.div
                 key={genre.id}
-                className={`rounded-lg overflow-hidden relative cursor-pointer preserve-3d ${
+                className={`rounded-lg overflow-hidden relative cursor-pointer ${
                   selectedGenre === genre.id ? 'ring-2 ring-spotify-green' : ''
                 }`}
-                style={{ 
-                  transformStyle: 'preserve-3d',
-                  perspective: '1000px'
-                }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05, duration: 0.5 }}
                 onClick={() => handleGenreSelect(genre.id)}
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: "0 8px 30px rgba(0, 0, 0, 0.12)"
+                }}
               >
-                <div className="relative aspect-square">
+                <motion.div
+                  className="relative aspect-square overflow-hidden"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <img 
                     src={genre.imageUrl} 
                     alt={genre.name}
@@ -257,19 +335,12 @@ const Browse = () => {
                   
                   <motion.div 
                     className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4"
-                    style={{ 
-                      transform: `translateZ(10px) rotateX(${
-                        selectedGenre === genre.id ? 0 : 
-                        (mousePosition.y / window.innerHeight - 0.5) * 5
-                      }deg) rotateY(${
-                        selectedGenre === genre.id ? 0 : 
-                        (mousePosition.x / window.innerWidth - 0.5) * -5
-                      }deg)` 
-                    }}
+                    initial={{ opacity: 0.8 }}
+                    whileHover={{ opacity: 1 }}
                   >
                     <h3 className="text-white font-bold text-lg">{genre.name}</h3>
                   </motion.div>
-                </div>
+                </motion.div>
                 
                 {selectedGenre === genre.id && (
                   <motion.div 
@@ -298,7 +369,7 @@ const Browse = () => {
           </div>
         </section>
         
-        {/* Enhanced Mood Section - BONUS FEATURE */}
+        {/* Enhanced Mood Section */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold mb-6">Browse by Mood</h2>
           
@@ -315,7 +386,7 @@ const Browse = () => {
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${mood.gradient} rounded-lg`}></div>
                 
-                {/* Music wave animation - BONUS FEATURE */}
+                {/* Music wave animation */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity">
                   <div className="flex space-x-1">
                     {[1, 2, 3, 4, 5].map((bar) => (
@@ -340,7 +411,7 @@ const Browse = () => {
                   <h3 className="text-2xl font-bold mb-2">{mood.name}</h3>
                   <p className="text-sm text-white/80">{mood.description}</p>
                   
-                  {/* Stats - BONUS FEATURE */}
+                  {/* Stats */}
                   <div className="mt-2 flex items-center text-xs text-white/70">
                     <span>{mood.songs} songs</span>
                     <span className="mx-2">•</span>
@@ -348,7 +419,7 @@ const Browse = () => {
                   </div>
                 </div>
                 
-                {/* Play button - BONUS FEATURE */}
+                {/* Play button */}
                 <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button
                     className="rounded-full w-10 h-10 p-0 bg-spotify-green hover:bg-spotify-green/90"
